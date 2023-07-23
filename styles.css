@@ -16,7 +16,30 @@ input[type="text"] {
 }
 
 p,
-h4,
-h1 {
+h4{
   color: maroon;
 }
+
+h1 {
+  color: yellow;
+}
+
+h2 {
+  color:aquamarine;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+div {
+  display: grid;
+  place-items: center;
+  text-align: center;  
+}
+
+table {
+  width: 100%;  
+}
+

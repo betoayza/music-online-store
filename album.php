@@ -1,5 +1,7 @@
 <?php
 
+include "./index.html";
+
 try {
     if (extension_loaded('mysqli')) {
         // echo 'La extensión MySQLi está habilitada en este servidor.';
@@ -8,10 +10,10 @@ try {
         $connection = mysqli_connect('localhost', 'alber', '1234', 'Chinook');
         if (!$connection) {
             die("La conexión falló :( : " . mysqli_connect_error());
-        }
-
-        $query = "SELECT * FROM Album";
-        $result = mysqli_query($connection, $query);
+        } else {
+            $query = "SELECT * FROM Album";
+            $result = mysqli_query($connection, $query);      
+        
 
 ?>
         <center>
@@ -28,6 +30,7 @@ try {
             ?>
         </center>
 <?php
+        }
     } else {
         echo 'La extensión MySQLi no está habilitada en este servidor.';
     }
