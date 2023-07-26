@@ -15,7 +15,6 @@ input[type="text"] {
   color: white;
 }
 
-p,
 h4{
   color: maroon;
 }
@@ -41,5 +40,10 @@ div {
 
 table {
   width: 100%;  
+}
+
+/* Classes */
+.header-option {
+  color: yellow;
 }
 
