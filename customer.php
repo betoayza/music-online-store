@@ -1,7 +1,5 @@
-<div style="overflow-x: auto;">
-<?php
-    
-    include "./index.html";
+<?php    
+    include "./index.php";
 
     try {
         if (extension_loaded('mysqli')) {
@@ -15,7 +13,7 @@
 
                 echo "<h2>Customers</h2>";
 
-                echo "<table border=1>";
+                echo "<table class='table table-bordered'>";
                 echo "<tr>";
                 echo "<th>ID</th>";
                 echo "<th>First Name</th>";
@@ -62,4 +60,3 @@
     mysqli_close($connection);
     
 ?>
-</div>

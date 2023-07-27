@@ -1,7 +1,6 @@
-<div>
     <?php
 
-        include "./index.html";
+        include "./index.php";
 
         try{
             if(extension_loaded('mysqli')){
@@ -17,7 +16,7 @@
                     if(!$result) {
                         echo "Query in incorrect :(";
                     } else {
-                        echo "<table border=1>";
+                        echo "<table class='table table-bordered'>";
                         echo "<tr>";
                         echo "<th>ID</th>";
                         echo "<th>First Name</th>";
@@ -74,4 +73,3 @@
     
     ?>
 
-</div>
