@@ -13,6 +13,7 @@
 
                 echo "<h2>Customers</h2>";
 
+                echo "<center class='mb-5'>";
                 echo "<table class='table table-bordered'>";
                 echo "<tr>";
                 echo "<th>ID</th>";
@@ -48,6 +49,7 @@
                     echo "</tr>";
                 }
                 echo "</table>"; 
+                echo "</center>";
 
             }
         } else {

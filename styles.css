@@ -10,10 +10,8 @@ h4 {
   text-transform: uppercase;
 }
 
-input[type="text"] {
-  background-color: black;
-  color: white;
-}
+/* input[type="text"] {
+} */
 
 h4{
   color: maroon;
