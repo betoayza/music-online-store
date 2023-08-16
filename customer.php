@@ -24,14 +24,25 @@ try {
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">New Album...</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">New Customer</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="upload_customer.php" method="POST">
-                                <input type="text" placeholder="Title..." class="form-control" name="title" require>
-                                <input type="number" placeholder="Artist ID..." class="form-control" name="artistID" require>
-                                <button type="submit" class="btn btn-primary">Upload</button>
+                                <input type="text" placeholder="First Name" class="form-control" name="firstName" require>
+                                <input type="text" placeholder="Last Name" class="form-control" name="lastName" require>
+                                <input type="text" placeholder="Company" class="form-control" name="company" require>
+                                <input type="text" placeholder="Address" class="form-control" name="address" require>
+                                <input type="text" placeholder="City" class="form-control" name="city" require>
+                                <input type="text" placeholder="State" class="form-control" name="state" require>
+                                <input type="text" placeholder="Country" class="form-control" name="country" require>
+                                <input type="text" placeholder="Postal Code" class="form-control" name="postalCode" require>
+                                <input type="text" placeholder="Phone" class="form-control" name="phone" require>
+                                <input type="text" placeholder="Fax" class="form-control" name="fax" require>
+                                <input type="text" placeholder="Email" class="form-control" name="email" require>
+                                <input type="number" placeholder="Support Rep ID" class="form-control" name="supportRepID" require>
+
+                                <button type="submit" class="btn btn-primary mt-3">Upload</button>
                             </form>
                         </div>
                         <div class="modal-footer">
