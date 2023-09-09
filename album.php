@@ -28,13 +28,13 @@ try {
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">New Album...</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">New Album</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="upload_album.php" method="POST">
-                                <input type="text" placeholder="Title..." class="form-control" name="title" require>
-                                <input type="number" placeholder="Artist ID..." class="form-control" name="artistID" require>
+                                <input type="text" placeholder="Title..." class="form-control" name="title" required>
+                                <input type="number" placeholder="Artist ID..." class="form-control" name="artistID" required>
                                 <button type="submit" class="btn btn-primary">Upload</button>
                             </form>
                         </div>
@@ -60,14 +60,16 @@ try {
                 <?php
                 echo "<h2>Albums</h2>";
                 echo "<table class='table table-bordered'>";
-                echo "<tr><th>ID</th><th>Title</th><th>Artist ID</th></tr>";
+                echo "<tr><th>ID</th><th>Title</th><th>Artist ID</th><th>Action</th></tr>";
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr><td>" . $row["AlbumId"] . "</td><td>" . $row["Title"] . "</td><td>" . $row["ArtistId"] . "</td></tr>";
+                    if ($row["isActive"] == 1)
+                        echo "<tr><td>" . $row["AlbumId"] . "</td><td>" . $row["Title"] . "</td><td>" . $row["ArtistId"] . "</td>" . "<td><button onclick='deleteAlbum(" . $row['AlbumId'] . ")' id='deleteButton' type='button' class='btn btn-danger'>Delete</button></td>" . "</tr>";
                 }
                 echo "</table>";
                 ?>
             </center>
             <?php
+
         }
     } else {
         echo 'La extensión MySQLi no está habilitada en este servidor.';
@@ -78,3 +80,22 @@ try {
 
 mysqli_close($connection);
 ?>
+
+<script>
+    const deleteAlbum = async (id) => {
+        if (confirm('Are yor sure?')) {
+
+            $.ajax({
+                url: 'delete_album.php',
+                type: 'POST',
+                data: { isActive: 0, id: id },
+                success: function (result) {
+                    console.log(result)
+                },
+                error: function (error) {
+                    console.log('error')
+                }
+            })
+        }
+    }
+</script>

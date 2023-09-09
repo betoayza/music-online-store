@@ -102,9 +102,6 @@ try {
             }
         }
 
-
-
-
     } else {
         echo "You have to enable 'mysqli' extension";
     }

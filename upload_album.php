@@ -1,45 +1,42 @@
 <?php
+
+include './index.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST["title"];
     $artist_ID = $_POST["artistID"];
 
-    echo "$title" . " " . "$artist_ID";
-
-    // ver si hay que poner la conexion devuelta
     $server = 'localhost';
     $user = 'alber';
     $password = '1234';
     $db = 'Chinook';
 
-    $connection = mysqli_connect($server, $user, $password, $db);
+    try {
+        $connection = mysqli_connect($server, $user, $password, $db);
 
-    if (!$connection) {
-        echo 'Connection problems :( ... ' . mysqli_connect_error();
+        if (!$connection)
+            echo 'Connection problems :( ... ' . mysqli_connect_error();
+        else {
+            $query = "INSERT INTO Album (Title, ArtistId) VALUES (?,?)";
+            $stmt = mysqli_prepare($connection, $query);
+            mysqli_stmt_bind_param($stmt, 'si', $title, $artist_ID);
+            mysqli_stmt_execute($stmt);
+            $num_rows = mysqli_stmt_affected_rows($stmt);
 
-    } else {
-        try {
-            // query
-            $query = "INSERT INTO Album (Title, ArtistId) VALUES ('$title', '$artist_ID')";
-            $result = mysqli_query($connection, $query);
-
-            echo "$result";
-
-            if ($result) {
-                echo 'Album updated succesffuly! :)'; // PENDIENTE: es exitoso, pero no aparece en la tabla
-
+            if ($num_rows > 0) {
+                echo 'Album uploaded successfuly! :)';
             } else {
-                echo 'Error in query, check that ;)';
+                echo 'Error in statement :(';
             }
-
-        } catch (Exception $e) {
-            echo $e->getMessage();
         }
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    } finally {
+        mysqli_close($connection);
     }
 
 } else {
     echo 'Something went wrong :/';
 }
-
-mysqli_close($connection);
 
 ?>
