@@ -16,10 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         if (!$connection)
             echo 'Conection error: ' . mysqli_connect_error();
         else {
-            // 2 casos: es un nro o un string
             $number = intval($term);
 
-            if ($number == 0) {
+            if ($number == 0) { //if it's not a number
                 $term = '%' . strtoupper($term) . '%';
                 $query = "SELECT * FROM Employee WHERE UPPER(FirstName) LIKE ? OR UPPER(LastName) LIKE ? OR UPPER(Title) LIKE ? OR UPPER(ReportsTo) LIKE ? OR UPPER(BirthDate) LIKE ? OR UPPER(HireDate) LIKE ? OR UPPER(Address) LIKE ? OR UPPER(City) LIKE ? OR UPPER(State) LIKE ? OR UPPER(Country) LIKE ? OR UPPER(PostalCode) LIKE ? OR UPPER(Phone) LIKE ? OR UPPER(Fax) LIKE ? OR UPPER(Email) LIKE ?";
 

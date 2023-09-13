@@ -1,7 +1,5 @@
 <?php
 
-include './index.php';
-
 if (isset($_POST["idCustomer"], $_POST["firstName"], $_POST["lastName"], $_POST["company"], $_POST["address"], $_POST["city"], $_POST["state"], $_POST["country"], $_POST["postalCode"], $_POST["phone"], $_POST["fax"], $_POST["email"], $_POST["supportRepID"])) {
 
     $id = $_POST["idCustomer"];

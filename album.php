@@ -62,8 +62,7 @@ try {
                 echo "<table class='table table-bordered'>";
                 echo "<tr><th>ID</th><th>Title</th><th>Artist ID</th><th>Action</th></tr>";
                 while ($row = mysqli_fetch_assoc($result)) {
-                    if ($row["isActive"] == 1)
-                        echo "<tr><td>" . $row["AlbumId"] . "</td><td>" . $row["Title"] . "</td><td>" . $row["ArtistId"] . "</td>" . "<td><button onclick='deleteAlbum(" . $row['AlbumId'] . ")' id='deleteButton' type='button' class='btn btn-danger'>Delete</button></td>" . "</tr>";
+                    echo "<tr><td>" . $row["AlbumId"] . "</td><td>" . $row["Title"] . "</td><td>" . $row["ArtistId"] . "</td>" . "<td>" . (($row["isActive"] == 1) ? "<button onclick='deleteAlbum(" . $row['AlbumId'] . ")' type='button' class='btn btn-danger'>Delete</button>" : "<button onclick='activateAlbum(" . $row['AlbumId'] . ")' type='button' class='btn btn-success'>Activate</button>") . "</td>" . "</tr>";
                 }
                 echo "</table>";
                 ?>
@@ -82,7 +81,7 @@ mysqli_close($connection);
 ?>
 
 <script>
-    const deleteAlbum = async (id) => {
+    const deleteAlbum = (id) => {
         if (confirm('Are yor sure?')) {
 
             $.ajax({
@@ -90,12 +89,26 @@ mysqli_close($connection);
                 type: 'POST',
                 data: { isActive: 0, id: id },
                 success: function (result) {
-                    console.log(result)
+                    alert(result)
                 },
                 error: function (error) {
-                    console.log('error')
+                    console.error('error')
                 }
             })
         }
+    }
+
+    const activateAlbum = (id) => {
+        $.ajax({
+            url: 'activate_album.php',
+            type: 'POST',
+            data: { isActive: 1, id: id },
+            success: function (result) {
+                alert(result);
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
     }
 </script>

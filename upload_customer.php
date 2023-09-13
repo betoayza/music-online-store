@@ -16,8 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $support_rep_ID = intval($_POST["supportRepID"]);
 
-    echo "$first_name $last_name $company $address $city $state $country $postal_code $fax $email $support_rep_ID" . gettype($support_rep_ID);
-
     $server = 'localhost';
     $user = 'alber';
     $pass = '1234';

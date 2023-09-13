@@ -66,6 +66,46 @@ try {
                 </form>
             </div>
 
+            <!-- Modal EDIT CUSTOMER-->
+            <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Customer</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <input type="hidden" id="idCustomerEdit" name="idCustomer">
+                                <input type="text" id="firstNameEdit" placeholder="First Name" class="form-control mb-2"
+                                    name="firstName" required>
+                                <input type="text" id="lastNameEdit" placeholder="Last Name" class="form-control mb-2"
+                                    name="lastName" required>
+                                <input type="text" id="companyEdit" placeholder="Company" class="form-control mb-2" name="company">
+                                <input type="text" id="addressEdit" placeholder="Address" class="form-control mb-2" name="address">
+                                <input type="text" id="cityEdit" placeholder="City" class="form-control mb-2" name="city" required>
+                                <input type="text" id="stateEdit" placeholder="State" class="form-control mb-2" name="state">
+                                <input type="text" id="countryEdit" placeholder="Country" class="form-control mb-2" name="country">
+                                <input type="text" id="postalCodeEdit" placeholder="Postal Code" class="form-control mb-2"
+                                    name="postalCode">
+                                <input type="text" id="phoneEdit" placeholder="Phone" class="form-control mb-2" name="phone">
+                                <input type="text" id="faxEdit" placeholder="Fax" class="form-control mb-2" name="fax">
+                                <input type="text" id="emailEdit" placeholder="Email" class="form-control mb-2" name="email"
+                                    required>
+                                <input type="number" id="supportRepIdEdit" placeholder="Support Rep ID" class="form-control mb-2"
+                                    name="supportRepID" required>
+
+                                <button type="button" class="btn btn-primary mt-2" onclick=editCustomer(this)>Edit</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
             <?php
 
             if (!$result) {
@@ -135,10 +175,10 @@ mysqli_close($connection);
             url: 'delete_customer.php',
             data: { isActive: 0, id: id },
             success: function (result) {
-                console.log(result);
+                alert(result);
             },
             error: function (error) {
-                console.log(error);
+                console.error(error);
             }
         });
     }
@@ -151,31 +191,10 @@ mysqli_close($connection);
             url: 'activate_customer.php',
             data: { isActive: 1, id: id },
             success: function (result) {
-                console.log(result);
+                alert(result);
             },
             error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-    const editCustomer = (customer) => {
-        $.ajax({
-            type: 'POST',
-            url: 'edit_customer.php',
-            data: {
-                firstName: '',
-                lastName: '',
-                company: '',
-                address: '',
-                city: '',
-                state: '',
-                country: '',
-                postalCode: '',
-                phone: '',
-                fax: '',
-                email: '',
-                supportRepId: ''
+                console.error(error);
             }
         });
     }
@@ -205,48 +224,54 @@ mysqli_close($connection);
 
             },
             error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+
+    const editCustomer = (button) => { //SEGUIR ACA
+        console.log(button);
+
+        const form = button.closest("form");
+        const inputs = form.getElementsByTagName("input");
+
+        console.log(inputs);
+
+        let formData = {};
+
+        for (let i = 0; i < inputs.length; i++) {
+            formData[inputs[i].name] = inputs[i].value;
+        }
+
+        console.log(formData);
+
+
+        $.ajax({
+            type: 'POST',
+            url: 'edit_customer.php',
+            data: {
+                idCustomer: formData.idCustomer,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                company: formData.company,
+                address: formData.address,
+                city: formData.city,
+                state: formData.state,
+                country: formData.country,
+                postalCode: formData.postalCode,
+                phone: formData.phone,
+                fax: formData.fax,
+                email: formData.email,
+                supportRepID: formData.supportRepID
+            },
+            success: function (response) {
+                alert(response);
+            },
+            error: function (error) {
                 console.log(error);
             }
         });
     }
+
 </script>
-
-<!-- Modal EDIT CUSTOMER-->
-<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Customer</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="edit_customer.php" method="POST">
-                    <input type="hidden" id="idCustomerEdit" name="idCustomer">
-                    <input type="text" id="firstNameEdit" placeholder="First Name" class="form-control mb-2"
-                        name="firstName" required>
-                    <input type="text" id="lastNameEdit" placeholder="Last Name" class="form-control mb-2"
-                        name="lastName" required>
-                    <input type="text" id="companyEdit" placeholder="Company" class="form-control mb-2" name="company">
-                    <input type="text" id="addressEdit" placeholder="Address" class="form-control mb-2" name="address">
-                    <input type="text" id="cityEdit" placeholder="City" class="form-control mb-2" name="city" required>
-                    <input type="text" id="stateEdit" placeholder="State" class="form-control mb-2" name="state">
-                    <input type="text" id="countryEdit" placeholder="Country" class="form-control mb-2" name="country">
-                    <input type="text" id="postalCodeEdit" placeholder="Postal Code" class="form-control mb-2"
-                        name="postalCode">
-                    <input type="text" id="phoneEdit" placeholder="Phone" class="form-control mb-2" name="phone">
-                    <input type="text" id="faxEdit" placeholder="Fax" class="form-control mb-2" name="fax">
-                    <input type="text" id="emailEdit" placeholder="Email" class="form-control mb-2" name="email"
-                        required>
-                    <input type="number" id="supportRepIdEdit" placeholder="Support Rep ID" class="form-control mb-2"
-                        name="supportRepID" required>
-
-                    <button type="submit" class="btn btn-primary mt-2">Edit</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
