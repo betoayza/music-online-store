@@ -18,10 +18,21 @@ try {
             $result = mysqli_query($connection, $query);
 
             ?>
-            <!-- Button  add Album -->
+
+            <!-- ADD ALBUM BUTTON-->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAlbumnModal">
                 Add
             </button>
+
+            <!-- PENDIENTE: BUSCAR UN ALTERNATIVA A D-FLEX JUSTIFY-CONTENT-CENTER PARA FORMS -->
+            <div class="mt-3 mb-3">
+                <form action="search_album.php" class="w-auto">
+                    <div class="form-group d-flex justify-content-center">
+                        <input type="text" class="form-control" placeholder="ID or title..." size="35" name="term">
+                        <button type="submit" class="btn btn-warning">Send</button>
+                    </div>
+                </form>
+            </div>
 
             <!-- Add Album Modal -->
             <div class="modal fade" id="addAlbumModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -55,33 +66,21 @@ try {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="edit_album.php" method="POST">
+                            <form>
                                 <input type="hidden" id='editIDdAlbum'>
                                 <input type="text" placeholder="Title..." class="form-control" name="title" id='editAlbumTitle'
                                     required>
                                 <input type="number" placeholder="Artist ID..." class="form-control" name="artistID"
                                     id='editAlbumIDartist' required>
-                                <button type="submit" class="btn btn-primary">Upload</button>
                             </form>
+                            <button class="btn btn-primary" onclick=editAlbum()>Edit</button>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         </div>
-
                     </div>
                 </div>
             </div>
-
-            <!-- PENDIENTE: BUSCAR UN ALTERNATIVA A D-FLEX JUSTIFY-CONTENT-CENTER PARA FORMS -->
-            <div class="mt-3 mb-3">
-                <form action="search_album.php" class="w-auto">
-                    <div class="form-group d-flex justify-content-center">
-                        <input type="text" class="form-control" placeholder="ID or title..." size="35" name="term">
-                        <button type="submit" class="btn btn-warning">Send</button>
-                    </div>
-                </form>
-            </div>
-
 
 
             <center class="mb-5 text-center">
@@ -111,7 +110,6 @@ mysqli_close($connection);
 <script>
     const deleteAlbum = (id) => {
         if (confirm('Are yor sure?')) {
-
             $.ajax({
                 url: 'delete_album.php',
                 type: 'POST',
@@ -131,8 +129,8 @@ mysqli_close($connection);
             url: 'activate_album.php',
             type: 'POST',
             data: { isActive: 1, id: id },
-            success: function (result) {
-                alert(result);
+            success: function (response) {
+                alert(response);
             },
             error: function (error) {
                 console.error(error);
@@ -140,17 +138,23 @@ mysqli_close($connection);
         });
     }
 
-    const editAlbum = (id) => {
+    const editAlbum = () => {
+        const id = document.getElementById('editIDdAlbum').value;
+        const title = document.getElementById('editAlbumTitle').value;
+        const idArtist = document.getElementById('editAlbumIDartist').value;
+
+        console.log(id, title, idArtist, "****");
+
         $.ajax({
             url: 'edit_album.php',
             type: 'POST',
             data: {
                 id: id,
-                title: '',
-                idArtist: ''
+                title: title,
+                idArtist: idArtist
             },
             success: function (response) {
-                alert(response);
+                console.log(response);
             },
             error: function (error) {
                 console.error(error);

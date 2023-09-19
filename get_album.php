@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
             }
         }
     } catch (Exception $e) {
-        $e->getMessage();
+        echo $e->getMessage();
     }
 
 
