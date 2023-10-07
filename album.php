@@ -131,7 +131,7 @@ const refreshTable = () => {
             .then(response => response.json())
             .then(data => {
                 let tableBody = document.querySelector('#albumsTable tbody');
-                tableBody.innerHTML = "";
+                tableBody.innerHTML = ""; // key
 
                 data.forEach(album => {
                     let row = document.createElement('tr');          
@@ -192,6 +192,7 @@ const refreshTable = () => {
             success: function (response) {
                 console.log(response);
                 refreshTable();
+                $('#editAlbumModal').modal('hide');
             },
             error: function (error) {
                 console.error(error);
