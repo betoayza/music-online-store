@@ -26,17 +26,17 @@ try {
 
             ?>
 
-            <!-- ADD ALBUM BUTTON-->
+            <!-- ADD ALBUM -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAlbumnModal">
                 Add
             </button>
 
-            <!-- PENDIENTE: BUSCAR UN ALTERNATIVA A D-FLEX JUSTIFY-CONTENT-CENTER PARA FORMS -->
+            <!-- SEARCH ALBUM -->
             <div class="mt-3 mb-3">
-                <form action="search_album.php" class="w-auto">
+                <form class="w-auto">
                     <div class="form-group d-flex justify-content-center">
                         <input type="text" class="form-control" placeholder="ID or title..." size="35" name="term">
-                        <button type="submit" class="btn btn-warning">Send</button>
+                        <button type="button" class="btn btn-warning" onclick=searchAlbum()>Send</button>
                     </div>
                 </form>
             </div>
@@ -89,7 +89,20 @@ try {
                 </div>
             </div>
 
+            <!-- PENDIENTE: SEARCH MODAL -->   
+            <div class="modal fade" id="searchAlbumModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
 
+                        </div>
+                        <div class="modal-body"></div>
+                        <div class="modal-footer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLE -->
             <center class="mb-5 text-center">
                 <?php
                 echo "<h2>Albums</h2>";
@@ -219,6 +232,14 @@ const refreshTable = () => {
         });
     }
     
+    // PENDIENTE
+    const searchAlbum = () => {
+        
+        fetch('search_album.php')
+        .then(response => response.json())
+        .then(data => )
+        .catch(error => console.error(error))
+    }
 
     // const connectGoogleMapsAPI = () => {
     //     const apiKey = 'YOUR_API_KEY'; // Replace with your Google Maps API Key
