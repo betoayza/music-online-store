@@ -1,21 +1,28 @@
 <?php
+
 include "./index.php";
 
 try {
     if (extension_loaded('mysqli')) {
-        // Realizar la solicitud a la BBDD
         $server = 'localhost';
         $user = 'alber';
         $pass = '1234';
         $db = 'Chinook';
 
         $connection = mysqli_connect($server, $user, $pass, $db);
+
         if (!$connection) {
             die("La conexión falló :( : " . mysqli_connect_error());
 
         } else {
             $query = "SELECT * FROM Album";
-            $result = mysqli_query($connection, $query);
+
+            function getAlbumList($connection, $query)
+            {
+                return mysqli_query($connection, $query);
+            }
+
+            $result = getAlbumList($connection, $query);
 
             ?>
 
@@ -86,20 +93,29 @@ try {
             <center class="mb-5 text-center">
                 <?php
                 echo "<h2>Albums</h2>";
-                echo "<table class='table table-bordered'>";
+                echo "<table id='albumsTable' class='table table-bordered'>";
                 echo "<tr><th>ID</th><th>Title</th><th>Artist ID</th><th>Action</th></tr>";
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr><td>" . $row["AlbumId"] . "</td><td>" . $row["Title"] . "</td><td>" . $row["ArtistId"] . "</td>" . "<td>" . "<button type='button' class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#editAlbumModal' onclick=getAlbumData(" . $row['AlbumId'] . ") >Edit</button>" . (($row["isActive"] == 1) ? "<button onclick='deleteAlbum(" . $row['AlbumId'] . ")' type='button' class='btn btn-danger'>Delete</button>" : "<button onclick='activateAlbum(" . $row['AlbumId'] . ")' type='button' class='btn btn-success'>Activate</button>") . "</td>" . "</tr>";
-                }
+
+                if ($result) {
+                    echo "<tbody>";
+
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr><td>" . $row["AlbumId"] . "</td><td>" . $row["Title"] . "</td><td>" . $row["ArtistId"] . "</td>" . "<td>" . "<button type='button' class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#editAlbumModal' onclick=getAlbumData(" . $row['AlbumId'] . ") >Edit</button>" . (($row["isActive"] == 1) ? "<button onclick='deleteAlbum(" . $row['AlbumId'] . ")' type='button' class='btn btn-danger'>Delete</button>" : "<button onclick='activateAlbum(" . $row['AlbumId'] . ")' type='button' class='btn btn-success'>Activate</button>") . "</td></tr>";
+                    }
+
+                    echo "</tbody>";
+                } else
+                    echo "<tr><td colspan='4'>" . 'No albums yet :(' . "</td></tr>";
+
                 echo "</table>";
                 ?>
             </center>
             <?php
 
         }
-    } else {
+    } else
         echo 'La extensión MySQLi no está habilitada en este servidor.';
-    }
+
 } catch (Exception $e) {
     echo $e->getMessage();
 }
@@ -107,15 +123,34 @@ try {
 mysqli_close($connection);
 ?>
 
+
 <script>
+
+const refreshTable = () => {
+        fetch('get_list_albums.php')        
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = document.querySelector('#albumsTable tbody');
+                tableBody.innerHTML = "";
+
+                data.forEach(album => {
+                    let row = document.createElement('tr');          
+                    row.innerHTML = "<td>" + album["AlbumId"] + "</td><td>" + album["Title"] + "</td><td>" + album["ArtistId"] + "</td>" + "<td>" + "<button type='button' class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#editAlbumModal' onclick=getAlbumData(" + album['AlbumId'] + ") >Edit</button>" + ((album["isActive"] == 1) ? "<button onclick='deleteAlbum(" + album['AlbumId'] + ")' type='button' class='btn btn-danger'>Delete</button>" : "<button onclick='activateAlbum(" + album['AlbumId'] + ")' type='button' class='btn btn-success'>Activate</button>") + "</td>";
+                    tableBody.appendChild(row);
+                });                            
+            })             
+            .catch(error => console.error('Error: ', error));
+    }
+
     const deleteAlbum = (id) => {
         if (confirm('Are yor sure?')) {
             $.ajax({
                 url: 'delete_album.php',
                 type: 'POST',
                 data: { isActive: 0, id: id },
-                success: function (result) {
-                    alert(result)
+                success: function (response) {
+                    console.log(response);
+                    refreshTable();
                 },
                 error: function (error) {
                     console.error('error')
@@ -129,8 +164,9 @@ mysqli_close($connection);
             url: 'activate_album.php',
             type: 'POST',
             data: { isActive: 1, id: id },
-            success: function (response) {
-                alert(response);
+            success: function (response) { 
+                console.log(response);
+                refreshTable();                
             },
             error: function (error) {
                 console.error(error);
@@ -155,6 +191,7 @@ mysqli_close($connection);
             },
             success: function (response) {
                 console.log(response);
+                refreshTable();
             },
             error: function (error) {
                 console.error(error);
@@ -180,4 +217,21 @@ mysqli_close($connection);
             }
         });
     }
+    
+
+    // const connectGoogleMapsAPI = () => {
+    //     const apiKey = 'YOUR_API_KEY'; // Replace with your Google Maps API Key
+    //     const url = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+
+    //     let script = document.createElement('script');
+    //     script.src = url;
+    //     script.async = true;
+    //     script.defer = true;
+    //     document.head.appendChild(script);
+    // }
+
+    // connectGoogleMapsAPI();
+    
+
+    
 </script>

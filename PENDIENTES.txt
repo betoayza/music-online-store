@@ -1,2 +1,3 @@
-1) SEGUIR CON EDIT_ALBUM
-        
+1) SEGUIR CON 'refreshTable':
+    - ver porqué solo actualiza la primer row:
+        - no tiene que ver con el ID de los botones
